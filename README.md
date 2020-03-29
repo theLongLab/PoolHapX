@@ -23,7 +23,7 @@ expected to have java (version: 1.8) on their platform.Longranger (version: 2.2.
 
 Several other tools are prerequisites for running. PoolHapX. Users can download and install them from the websites:
 * bwa (if using paired-end reads): https://github.com/lh3/bwa
-* samtools 0.1.19+: http://www.htslib.org/download/
+* samtools 1.0+: http://www.htslib.org/download/
 * GATK 4.1: https://software.broadinstitute.org/gatk/download/index
 * longranger (if using 10x linked-reads): https://support.10xgenomics.com/genome-exome/software/pipelines/latest/installation
 
