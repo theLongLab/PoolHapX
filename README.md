@@ -1,4 +1,4 @@
-## Users’ Manual of PoolHapX (Version 1.0)
+## Users’ Manual of PoolHapX (Version 1.0.0)
 ### Preamble
 The PoolHapX program reconstructs haplotypes within-host from pooled-sequencing data by integrating population genetic models (statistical linkage disequilibrium) with genomics reads (physical linkage). It approximate the resolution of single-cell sequencing using only pooled sequencing data, enabling within-host evolution analyses.
 
