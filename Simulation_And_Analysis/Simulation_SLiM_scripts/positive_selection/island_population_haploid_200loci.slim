@@ -1,0 +1,90 @@
+// Based on the SLiM v3 
+// adjustable parameters: migration_rate; fitness coefficients; maf_cutoff; number of pools 
+
+initialize() {
+        initializeSLiMModelType("nonWF");
+        defineConstant("K", 70);        // carrying capacity
+        defineConstant("migration_rate", 0.05); // migration rate
+        chromosome_len=9719;
+        defineConstant("L", chromosome_len); // chromosome length
+        defineConstant("H", 0.001); // Recombination probability
+        initializeMutationRate(4e-5);
+        initializeMutationType("m1", 1.0, "f", 0.0);
+        initializeMutationType("m3", 1.0, "f", -0.05);  // deleterious
+        initializeMutationType("m4", 1.0, "f", 0.05);      // beneficial
+        initializeGenomicElementType("g1", c(m4,m3,m1), c(2, 0.0, 5.0)); // m4 or m3 not used
+        initializeGenomicElement(g1, 0, chromosome_len-1);
+        initializeRecombinationRate(0);   // no regular recombination in diploid sense. Instead,            the recombination is modelled by HGT below.
+}
+reproduction() {
+        for(p_i in sim.subpopulations){
+                       if (runif(1) < H)
+                {
+                        // horizontal gene transfer from a randomly chosen individual
+                        HGTsource = p_i.sampleIndividuals(1).genome1;
+                        // draw two distinct locations; redraw if we get a duplicate
+                        the_break = rdunif(1, max=L-1);
+                        recomb = c(0, the_break, L-1);
+                        subpop.addRecombinant(genome1, HGTsource, recomb, NULL, NULL,      NULL);
+                }
+                else
+                {
+                        // no horizontal gene transfer; clonal replication
+                        subpop.addRecombinant(genome1, NULL, NULL, NULL, NULL, NULL);
+                }
+        }
+
+}
+1 {
+        metapopSide = 7;        // number of subpops along one side of the grid
+        metapopSize = metapopSide * metapopSide+1; //
+        for (i in 1:metapopSize)
+                sim.addSubpop(i, 70);
+}
+early(){
+        // random migration
+        nIndividuals = sum(sim.subpopulations.individualCount);
+        nMigrants = rpois(1, nIndividuals * migration_rate);
+        migrants = sample(sim.subpopulations.individuals, nMigrants);
+        for (migrant in migrants){
+                do dest = sample(sim.subpopulations, 1);
+                while (dest == migrant.subpopulation);
+                dest.takeMigrants(migrant);
+        }
+        for (subpop in sim.subpopulations){
+                subpop.fitnessScaling = K / subpop.individualCount;
+        }
+}
+late() {
+        // remove mutations in the haploid genomes that have fixed
+        muts = sim.mutationsOfType(m1);
+        freqs = sim.mutationFrequencies(NULL, muts);
+        if (any(freqs >= 0.5))
+                sim.subpopulations.genomes.removeMutations(muts[freqs >= 0.5], T);
+        muts = sim.mutationsOfType(m3);
+        freqs = sim.mutationFrequencies(NULL, muts);
+        if (any(freqs >= 0.5))
+                sim.subpopulations.genomes.removeMutations(muts[freqs >= 0.5], T);
+        muts = sim.mutationsOfType(m4);
+        freqs = sim.mutationFrequencies(NULL, muts);
+        if (any(freqs >= 0.5))
+               sim.subpopulations.genomes.removeMutations(muts[freqs >= 0.5], T);
+}
+
+10000 late() { 
+        outSize=p1.individualCount * 2;
+        maf_cufoff=0.1;
+        muts4=sim.mutationsOfType(m4);
+        freqs4 = sim.mutationFrequencies(NULL, muts4);
+        remove4 = muts4[freqs4 < maf_cufoff/2];
+        muts1=sim.mutationsOfType(m1);
+        freqs1 = sim.mutationFrequencies(NULL, muts1);
+        remove1 = muts1[freqs1 < maf_cufoff/2];
+        muts3=sim.mutationsOfType(m3);
+        freqs3 = sim.mutationFrequencies(NULL, muts3);
+        remove3 = muts3[freqs3 < maf_cufoff/2];
+        removes=c(remove4, remove3, remove1);
+        sim.subpopulations.genomes.removeMutations(removes, T);
+        sim.outputFull();
+}
+

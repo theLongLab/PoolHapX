@@ -1,0 +1,10 @@
+sample1.read1.fastq     sample1.read2.fastq
+sample2.read1.fastq     sample2.read2.fastq
+sample3.read1.fastq     sample3.read2.fastq
+sample4.read1.fastq     sample4.read2.fastq
+sample5.read1.fastq     sample5.read2.fastq
+sample6.read1.fastq     sample6.read2.fastq
+sample7.read1.fastq     sample7.read2.fastq
+sample8.read1.fastq     sample8.read2.fastq
+sample9.read1.fastq     sample9.read2.fastq
+sample10.read1.fastq    sample10.read2.fastq
