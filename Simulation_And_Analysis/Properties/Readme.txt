@@ -1,4 +1,4 @@
-PoolHapX.properties is the properties file for running PoolHapX.
+PoolHapX.properties is an example properties file for running PoolHapX.
 PoolSimulator.properties is the properties file for runnnig PoolSimulator_SLiM.jar.
 Users may modify the paramter values in PoolHapX.properties & PoolSimulator.properties according to their own needs. 
 PoolHapX_P.vivax.properties is the properties file for the Plasmodium vivax real data analysis.
