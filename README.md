@@ -14,8 +14,7 @@ host (or within-pool) frequencies of each haplotype by running the functions ste
 “script”, “format”, “gc”, “aem”, “l0l1”. ScriptForPHX.jar generates all commands required
 by PoolHapX in a script so users can run the script easily. More description and
 benchmarking of PoolHapX can be found in our publication:
-
-URL of the bioariv.
+https://www.biorxiv.org/content/10.1101/2020.03.29.014704v2
 
 ### Installation
 PoolHapX is a batteries-included JAR executable. All needed external jar packages are included in the downloadable, PoolHapX.jar. However, as we used an R package L0Learn, the users have to install R and L0Learn (https://cran.r-project.org/web/packages/L0Learn/index.html). The versions of R and R package L0Learn that we have used on our platform are: version 1.2.0 for L0Learn and version 3.6.1 for R. Other versions are not tested, although they may work. Users are also
